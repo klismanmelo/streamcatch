@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./style.css') }}">
+    <title>StreamCatch</title>
+</head>
+<body>
+    <h1>StreamCatch</h1>
+    <h2>Baixe Vídeos de Graça do Youtube</h2>
+    <form action="/download" method="POST">
+        <input type="text" name="url_video" placeholder="URL..." required>
+        <button type="submit" style="display: inline;">Baixar</button>
+    </form>
+</body>
+</html>
