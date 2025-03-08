@@ -25,10 +25,8 @@ def download():
         filepath = os.path.join(DOWNLOAD_FOLDER, f"{yt.title}.mp4")
         stream.download(output_path=DOWNLOAD_FOLDER, filename=f"{yt.title}.mp4")
 
-        print('deu certo')
         return redirect('/')
     except Exception as e:
-        print('deu errado')
         return redirect('/')
 
     
