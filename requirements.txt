@@ -1,3 +1,4 @@
 flask
 flask_sqlalchemy
 pytubefix
+flask_cors

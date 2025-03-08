@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect, jsonify
 from pytubefix import YouTube
+from flask_cors import CORS
 import os
 
 app = Flask(__name__)
+CORS(app) # Permite que o Flet (front) acesse a API
 
 DOWNLOAD_FOLDER = "downloads"
 os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
@@ -13,8 +15,8 @@ def dashboard():
 
 @app.route('/download', methods=["POST"])
 def download():
-    data = request.form['url_video']
-    url = data
+    data = request.json
+    url = data.get("url")
 
     if not url:
         return jsonify({"error": "URL não fornecida"}), 400
@@ -23,11 +25,14 @@ def download():
         yt = YouTube(url)
         stream = yt.streams.get_highest_resolution()
         filepath = os.path.join(DOWNLOAD_FOLDER, f"{yt.title}.mp4")
-        stream.download(output_path=DOWNLOAD_FOLDER, filename=f"{yt.title}.mp4")
+        filename = f"{yt.title}.mp4"
+        stream.download(output_path=DOWNLOAD_FOLDER, filename=filename)
 
-        return redirect('/')
+        #return redirect('/')
+        return jsonify({"message": "Download concluído!", "filename": filename, "path": filepath}), 200
     except Exception as e:
-        return redirect('/')
+        #return redirect('/')
+        return jsonify({"error": str(e)}), 500
 
     
 
